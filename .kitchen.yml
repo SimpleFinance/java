@@ -1,0 +1,22 @@
+---
+
+driver_plugin: vagrant
+
+platforms:
+<% %w(11.8.2).each do |chef_version| %>
+- name: ubuntu-12.04-<%= chef_version %>-java
+  driver_config:
+    box: opscode_ubuntu-12.04
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
+    require_chef_omnibus: <%= chef_version %>
+  run_list:
+  - recipe[apt]
+<% end %>
+
+suites:
+- name: oracle
+  run_list:
+  - recipe[java_test::oracle]
+- name: openjdk
+  run_list:
+  - recipe[java_test::openjdk]
