@@ -19,17 +19,17 @@ module ChefJava
       # I don't think we need all these rm_rf calls.
       def write_file(dest, entry)
         if entry.directory?
-          FileUtils.rm_rf dest unless File.directory? dest
-          FileUtils.mkdir_p dest, :mode => entry.header.mode, :verbose => false
+          FileUtils.rm_rf(dest) unless File.directory?(dest)
+          FileUtils.mkdir_p(dest, mode: entry.header.mode, verbose: false)
         elsif entry.file?
-          FileUtils.rm_rf dest unless File.file? dest
+          FileUtils.rm_rf(dest) unless File.file?(dest)
           # write only - binary mode
-          File.open dest, 'wb' do |f|
+          File.open(dest, 'wb') do |f|
             f.print entry.read
           end
-          FileUtils.chmod entry.header.mode, dest, :verbose => false
+          FileUtils.chmod(entry.header.mode, dest, verbose: false)
         elsif entry.header.typeflag == '2' #Symlink!
-          File.symlink entry.header.linkname, dest
+          File.symlink(entry.header.linkname, dest)
         end
       end
 
