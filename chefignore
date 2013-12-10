@@ -1,0 +1,8 @@
+test
+Gemfile
+Gemfile.lock
+Cheffile
+Berksfile
+.kitchen.yml
+.kitchen.local.yml
+.gems
