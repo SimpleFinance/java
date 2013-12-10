@@ -24,11 +24,11 @@ module ChefJava
       private
 
       def archive
-        @options[:source]
+        @options.fetch(:source) { :tar_source_unspecified }
       end
 
       def destination
-        @options[:destination]
+        @options.fetch(:destination) { :tar_destination_unspecified }
       end
 
       #
