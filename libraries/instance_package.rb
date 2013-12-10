@@ -1,0 +1,23 @@
+
+module ChefJava
+  module Instance
+    class Package
+
+      def initialize
+      end
+
+      def self.installed?
+      end
+
+      def self.version
+      end
+
+      def install
+      end
+
+      def remove
+      end
+
+    end
+  end
+end
