@@ -2,7 +2,6 @@
 # Take the path to a compress tarball containing Java
 # Extract Java to destination directory
 
-require 'chef/resource/directory'
 require_relative 'tar_helper'
 
 module ChefJava

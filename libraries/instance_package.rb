@@ -14,9 +14,11 @@ module ChefJava
       end
 
       def install
+        true
       end
 
       def remove
+        true
       end
 
     end
