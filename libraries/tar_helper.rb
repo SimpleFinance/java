@@ -8,20 +8,23 @@ module ChefJava
   module Helpers
     class Tar
 
-      def initialize(archive)
+      def initialize(archive, destination)
         @archive = archive
+        @destination = destination
       end
 
       TAR_LONGLINK = '././@LongLink'
 
       # TODO: Clean me.
+      # I don't think we need all these rm_rf calls.
       def write_file(dest, entry)
         if entry.directory?
           FileUtils.rm_rf dest unless File.directory? dest
           FileUtils.mkdir_p dest, :mode => entry.header.mode, :verbose => false
         elsif entry.file?
           FileUtils.rm_rf dest unless File.file? dest
-          File.open dest, "wb" do |f|
+          # write only - binary mode
+          File.open dest, 'wb' do |f|
             f.print entry.read
           end
           FileUtils.chmod entry.header.mode, dest, :verbose => false
@@ -52,9 +55,9 @@ module ChefJava
 
       def get_destination(entry)
         if longlink?(entry)
-          longlink(destination, entry)
+          longlink(@destination, entry)
         else
-          link(destination, entry)
+          link(@destination, entry)
         end
       end
 
