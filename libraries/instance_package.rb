@@ -3,7 +3,8 @@ module ChefJava
   module Instance
     class Package
 
-      def initialize
+      def initialize(options)
+        @options = options
       end
 
       def self.installed?
