@@ -14,11 +14,11 @@ class Chef
       end
 
       def install_options(arg=nil)
-        set_or_return(:install_options, arg, kind_of: Symbol)
+        set_or_return(:install_options, arg, kind_of: Hash)
       end
 
       def install_type(arg=nil)
-        set_or_return(:install_type, arg, kind_of: Hash)
+        set_or_return(:install_type, arg, kind_of: Symbol)
       end
 
       private
