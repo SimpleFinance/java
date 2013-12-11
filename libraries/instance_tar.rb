@@ -6,6 +6,7 @@ require_relative 'tar_helper'
 
 module ChefJava
   module Instance
+    # Drive tar extraction.
     class Tar
       def initialize(options)
         @options = options

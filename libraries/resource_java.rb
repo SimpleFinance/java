@@ -2,6 +2,7 @@ require 'chef/resource'
 
 class Chef
   class Resource
+    # Install Java from various sources.
     class Java < Chef::Resource
       state_attrs :install_type
 

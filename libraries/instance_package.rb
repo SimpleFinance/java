@@ -1,6 +1,7 @@
 
 module ChefJava
   module Instance
+    # Take a Java package and install it.
     class Package
       def initialize(options)
         @options = options
@@ -22,4 +23,3 @@ module ChefJava
     end
   end
 end
-

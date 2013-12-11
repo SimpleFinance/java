@@ -8,6 +8,7 @@ require 'zlib'
 
 module ChefJava
   module Helpers
+    # Take gzipped tarball and extract it to a location.
     class Tar
       def initialize(archive, destination)
         @archive = archive

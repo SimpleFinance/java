@@ -4,6 +4,7 @@ require_relative('instance_package')
 
 class Chef
   class Provider
+    # Install Java from various sources.
     class Java < Chef::Provider
       def initialize(new_resource, run_context)
         super
