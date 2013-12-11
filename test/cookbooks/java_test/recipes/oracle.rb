@@ -1,4 +1,5 @@
 
+Chef::Log.info('Testing management of "oracle_jdk"')
 java 'oracle_jdk' do
   install_type :tar
   install_options({
