@@ -32,7 +32,8 @@ module ChefJava
 
       #
       def extract_tar
-        ChefJava::Helpers::Tar.new(archive, destination)
+        tar = ChefJava::Helpers::Tar.new(archive, destination)
+        tar.extract_tar
       end
 
       def remove_extracted_tar
