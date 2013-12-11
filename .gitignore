@@ -16,6 +16,7 @@ tmp
 
 *.gem
 *.rbc
+*.lock
 
 # YARD artifacts
 .yardoc
