@@ -18,14 +18,31 @@ module ChefJava
       TAR_LONGLINK = '././@LongLink'
 
       def extract_tar
-        tar_reader(gzip_reader(@archive)) do |tar|
-          tar.each do |entry|
-            write_file(get_destination(entry), entry)
+        if valid_archive_and_destination?(@archive, @destination)
+          tar_reader(gzip_reader(@archive)) do |tar|
+            tar.each do |entry|
+              write_file(get_destination(entry), entry)
+            end
           end
+        else
+          Chef::Log.info("Archive #{ @archive } is invalid.")
         end
       end
 
       private
+
+      def valid_archive_and_destination?(archive, destination)
+        valid_archive?(archive)
+        valid_destination?(destination)
+      end
+
+      def valid_archive?(archive)
+        File.file?(archive)
+      end
+
+      def valid_destination?(destination)
+        File.directory?(destination)
+      end
 
       def write_file(dest, entry)
         if entry.directory?
