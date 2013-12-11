@@ -2,6 +2,7 @@
 .bundle
 .config
 .idea
+.kitchen
 
 coverage
 InstalledFiles
