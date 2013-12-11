@@ -25,26 +25,35 @@ module ChefJava
 
       private
 
-      # TODO: Clean me.
-      # I don't think we need all these rm_rf calls.
       def write_file(dest, entry)
         if entry.directory?
-          FileUtils.rm_rf(dest) unless File.directory?(dest)
-          FileUtils.mkdir_p(dest, mode: entry.header.mode, verbose: false)
+          tar_mkdir(dest, entry)
         elsif entry.file?
-          FileUtils.rm_rf(dest) unless File.file?(dest)
-          # write only - binary mode
-          File.open(dest, 'wb') do |f|
-            f.print entry.read
-          end
-          FileUtils.chmod(entry.header.mode, dest, verbose: false)
+          tar_file(dest, entry)
         elsif entry.header.typeflag == '2' #Symlink!
-          File.symlink(entry.header.linkname, dest)
+          tar_symlink(dest, entry)
         end
       end
 
-      def longlink?(entry)
-       entry.full_name == TAR_LONGLINK
+      def tar_mkdir(tar_dest, tar_entry)
+        FileUtils.rm_rf(tar_dest) unless File.directory?(tar_dest)
+        FileUtils.mkdir_p(tar_dest, mode: tar_entry.header.mode, verbose: false)
+      end
+
+      def tar_file(tar_dest, tar_entry)
+        FileUtils.rm_rf(tar_dest) unless File.file?(tar_dest)
+        File.open(tar_dest, 'wb') do |f|
+          f.print tar_entry.read
+        end
+        FileUtils.chmod(tar_entry.header.mode, tar_dest, verbose: false)
+      end
+
+      def tar_symlink(tar_dest, tar_entry)
+        File.symlink(tar_entry.header.linkname, tar_dest)
+      end
+
+      def longlink?(tar_entry)
+        tar_entry.full_name == TAR_LONGLINK
       end
 
       def gzip_reader(archive)
@@ -55,22 +64,21 @@ module ChefJava
         @tar_reader ||= Gem::Package::TarReader.new(archive)
       end
 
-      def longlink(destination, entry)
-        File.join(destination, entry.read.strip)
+      def longlink(destination, tar_entry)
+        File.join(destination, tar_entry.read.strip)
       end
 
-      def link(destination, entry)
-        File.join(destination, entry.full_name)
+      def link(destination, tar_entry)
+        File.join(destination, tar_entry.full_name)
       end
 
-      def get_destination(entry)
-        if longlink?(entry)
-          longlink(@destination, entry)
+      def get_destination(tar_entry)
+        if longlink?(tar_entry)
+          longlink(@destination, tar_entry)
         else
-          link(@destination, entry)
+          link(@destination, tar_entry)
         end
       end
-
 
     end
   end
