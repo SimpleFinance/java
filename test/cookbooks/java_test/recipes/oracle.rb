@@ -10,12 +10,12 @@ end
 Chef::Log.info('Testing management of "oracle_jdk"')
 java 'oracle_jdk' do
   install_type :tar
-  install_options({
+  install_options(
     source: '/tmp/java.tar.gz',
     destination: '/opt',
     provider: :oracle,
     version: 7,
     update: 45,
     install_jce: true
-  })
+  )
 end

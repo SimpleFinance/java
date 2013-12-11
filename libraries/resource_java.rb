@@ -19,10 +19,6 @@ class Chef
       def install_type(arg = nil)
         set_or_return(:install_type, arg, kind_of: Symbol)
       end
-
-      private
-
     end
   end
 end
-

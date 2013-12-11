@@ -2,7 +2,6 @@
 module ChefJava
   module Instance
     class Package
-
       def initialize(options)
         @options = options
       end
@@ -20,7 +19,7 @@ module ChefJava
       def remove
         true
       end
-
     end
   end
 end
+

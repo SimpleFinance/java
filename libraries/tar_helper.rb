@@ -1,5 +1,7 @@
 # This is a wrapper around the Rubygems TarReader and Zlib
-# http://dracoater.blogspot.com/2013/10/extracting-files-from-targz-with-ruby.html
+#
+# http://dracoater.blogspot.com/2013/10
+# /extracting-files-from-targz-with-ruby.html
 
 require 'rubygems/package'
 require 'zlib'
@@ -87,4 +89,3 @@ module ChefJava
     end
   end
 end
-
