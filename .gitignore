@@ -1,6 +1,7 @@
 .gems
 .bundle
 .config
+.idea
 
 coverage
 InstalledFiles
