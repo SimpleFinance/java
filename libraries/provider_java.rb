@@ -5,7 +5,6 @@ require_relative('instance_package')
 class Chef
   class Provider
     class Java < Chef::Provider
-
       def initialize(new_resource, run_context)
         super
         @install_type = new_resource.install_type
@@ -39,7 +38,7 @@ class Chef
 
       def instance_sub_class(type)
         klass = "ChefJava::Instance::#{ type_to_sc(type) }"
-        klass.split('::').reduce(Object) { |kls, t| kls.const_get(t) }
+        klass.split('::').reduce(Object) { |a, e| a.const_get(e) }
       end
 
       def type_to_sc(type)

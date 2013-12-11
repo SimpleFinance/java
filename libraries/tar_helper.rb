@@ -7,7 +7,6 @@ require 'zlib'
 module ChefJava
   module Helpers
     class Tar
-
       def initialize(archive, destination)
         @archive = archive
         @destination = destination
@@ -30,14 +29,20 @@ module ChefJava
           tar_mkdir(dest, entry)
         elsif entry.file?
           tar_file(dest, entry)
-        elsif entry.header.typeflag == '2' #Symlink!
+        elsif entry_symlink?(entry)
           tar_symlink(dest, entry)
         end
       end
 
+      def entry_symlink?(tar_entry)
+        tar_entry.header.typeflag == '2'
+      end
+
       def tar_mkdir(tar_dest, tar_entry)
         FileUtils.rm_rf(tar_dest) unless File.directory?(tar_dest)
-        FileUtils.mkdir_p(tar_dest, mode: tar_entry.header.mode, verbose: false)
+        FileUtils.mkdir_p(tar_dest,
+                          mode: tar_entry.header.mode,
+                          verbose: false)
       end
 
       def tar_file(tar_dest, tar_entry)
@@ -79,7 +84,6 @@ module ChefJava
           link(@destination, tar_entry)
         end
       end
-
     end
   end
 end

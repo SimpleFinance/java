@@ -7,7 +7,6 @@ require_relative 'tar_helper'
 module ChefJava
   module Instance
     class Tar
-
       def initialize(options)
         @options = options
       end
