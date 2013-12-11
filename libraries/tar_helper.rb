@@ -15,6 +15,16 @@ module ChefJava
 
       TAR_LONGLINK = '././@LongLink'
 
+      def extract_tar
+        tar_reader(gzip_reader(@archive)) do |tar|
+          tar.each do |entry|
+            write_file(get_destination(entry), entry)
+          end
+        end
+      end
+
+      private
+
       # TODO: Clean me.
       # I don't think we need all these rm_rf calls.
       def write_file(dest, entry)
@@ -38,11 +48,11 @@ module ChefJava
       end
 
       def gzip_reader(archive)
-        Zlib::GzipReader.open(archive)
+        @gzip_reader ||= Zlib::GzipReader.open(archive)
       end
 
       def tar_reader(archive)
-        Gem::Package::TarReader.new(archive)
+        @tar_reader ||= Gem::Package::TarReader.new(archive)
       end
 
       def longlink(destination, entry)
@@ -61,13 +71,6 @@ module ChefJava
         end
       end
 
-      def extract_tar
-        tar_reader(gzip_reader(@archive)) do |tar|
-          tar.each do |entry|
-            write_file(get_destination(entry), entry)
-          end
-        end
-      end
 
     end
   end
