@@ -9,8 +9,6 @@ platforms:
     box: opscode_ubuntu-12.04
     box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
     require_chef_omnibus: <%= chef_version %>
-  run_list:
-  - recipe[apt]
 <% end %>
 
 suites:
@@ -19,4 +17,5 @@ suites:
   - recipe[java_test::oracle]
 - name: openjdk
   run_list:
+  - recipe[apt]
   - recipe[java_test::openjdk]
