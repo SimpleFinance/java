@@ -18,14 +18,17 @@ module ChefJava
       TAR_LONGLINK = '././@LongLink'
 
       def extract_tar
+        Chef::Log.debug("[Tar#extract_tar] Archive is #{ @archive }")
+        Chef::Log.debug("[Tar#extract_tar] Destination is #{ @destination }")
         if valid_archive_and_destination?(@archive, @destination)
-          tar_reader(gzip_reader(@archive)) do |tar|
-            tar.each do |entry|
-              write_file(get_destination(entry), entry)
-            end
+          Chef::Log.info("[Tar#extract_tar] Archive and destination are valid.")
+          tar = tar_reader(gzip_reader(@archive))
+          tar.each do |entry|
+            Chef::Log.debug("[Tar#extract_tar] Iteration: #{ entry }")
+            write_file(get_destination(entry), entry)
           end
         else
-          Chef::Log.info("Archive #{ @archive } is invalid.")
+          Chef::Log.info("[Tar#extract_tar] Archive #{ @archive } is invalid.")
         end
       end
 
@@ -45,12 +48,18 @@ module ChefJava
       end
 
       def write_file(dest, entry)
+        Chef::debug.info('Writing files.')
         if entry.directory?
+          Chef::debug.info("mkdir #{ dest } at #{ entry }")
           tar_mkdir(dest, entry)
         elsif entry.file?
+          Chef::Log.debug("file #{ dest } at #{ entry }")
           tar_file(dest, entry)
         elsif entry_symlink?(entry)
+          Chef::Log.debug("symlink #{ dest } at #{ entry }")
           tar_symlink(dest, entry)
+        else
+          Chef::Log.debug("Unsure how to handle #{ entry.header }")
         end
       end
 
@@ -68,7 +77,7 @@ module ChefJava
       def tar_file(tar_dest, tar_entry)
         FileUtils.rm_rf(tar_dest) unless File.file?(tar_dest)
         File.open(tar_dest, 'wb') do |f|
-          f.print tar_entry.read
+          f.write tar_entry.read
         end
         FileUtils.chmod(tar_entry.header.mode, tar_dest, verbose: false)
       end
@@ -82,11 +91,24 @@ module ChefJava
       end
 
       def gzip_reader(archive)
-        @gzip_reader ||= Zlib::GzipReader.open(archive)
+        begin
+          zip = Zlib::GzipReader.open(archive)
+          io = StringIO.new(zip.read)
+          zip.close
+          io.rewind
+          io
+        rescue => error
+          Chef::Log.debug("gzip_reader error: #{ error }")
+        end
       end
 
       def tar_reader(archive)
-        @tar_reader ||= Gem::Package::TarReader.new(archive)
+        begin
+          tar = Gem::Package::TarReader.new(archive)
+          tar
+        rescue => error
+          Chef::Log.debug("tar_reader error: #{ error }")
+        end
       end
 
       def longlink(destination, tar_entry)
