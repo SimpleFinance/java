@@ -49,7 +49,8 @@ module ChefJava
         elsif entry_symlink?(entry)
           tar_symlink(dest, entry)
         else
-          Chef::Log.debug("[Tar#write_file] Unsure how to handle #{ entry.header }")
+          Chef::Log.debug(
+              "[Tar#write_file] Unsure how to handle #{ entry.header }")
         end
       end
 
