@@ -1,7 +1,4 @@
 # This is a wrapper around the Rubygems TarReader and Zlib
-#
-# http://dracoater.blogspot.com/2013/10
-# /extracting-files-from-targz-with-ruby.html
 
 require 'rubygems/package'
 require 'zlib'
@@ -48,18 +45,18 @@ module ChefJava
       end
 
       def write_file(dest, entry)
-        Chef::Log.debug('Writing files.')
+        Chef::Log.debug('[Tar#write_file] Writing files.')
         if entry.directory?
-          Chef::Log.debug("mkdir #{ dest } at #{ entry }")
+          Chef::Log.debug("[Tar#write_file] mkdir #{ dest } at #{ entry }")
           tar_mkdir(dest, entry)
         elsif entry.file?
-          Chef::Log.debug("file #{ dest } at #{ entry }")
+          Chef::Log.debug("[Tar#write_file] file #{ dest } at #{ entry }")
           tar_file(dest, entry)
         elsif entry_symlink?(entry)
-          Chef::Log.debug("symlink #{ dest } at #{ entry }")
+          Chef::Log.debug("[Tar#write_file] symlink #{ dest } at #{ entry }")
           tar_symlink(dest, entry)
         else
-          Chef::Log.debug("Unsure how to handle #{ entry.header }")
+          Chef::Log.debug("[Tar#write_file] Unsure how to handle #{ entry.header }")
         end
       end
 
@@ -98,7 +95,7 @@ module ChefJava
           io.rewind
           io
         rescue => error
-          Chef::Log.debug("gzip_reader error: #{ error }")
+          Chef::Log.debug("[Tar#gzip_reader] Unknown Error: #{ error }")
         end
       end
 
@@ -107,7 +104,7 @@ module ChefJava
           tar = Gem::Package::TarReader.new(archive)
           tar
         rescue => error
-          Chef::Log.debug("tar_reader error: #{ error }")
+          Chef::Log.debug("[Tar#tar_reader] Unknown Error: #{ error }")
         end
       end
 
