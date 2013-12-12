@@ -59,7 +59,7 @@ module ChefJava
       end
 
       def tar_mkdir(tar_dest, tar_entry)
-        Chef::Log.debug("[Tar#write_file] mkdir #{ dest } at #{ entry }")
+        Chef::Log.debug("[Tar#write_file] mkdir #{ tar_dest } at #{ tar_entry }")
         FileUtils.rm_rf(tar_dest) unless File.directory?(tar_dest)
         FileUtils.mkdir_p(tar_dest,
                           mode: tar_entry.header.mode,
@@ -67,7 +67,7 @@ module ChefJava
       end
 
       def tar_file(tar_dest, tar_entry)
-        Chef::Log.debug("[Tar#write_file] file #{ dest } at #{ entry }")
+        Chef::Log.debug("[Tar#write_file] file #{ tar_dest } at #{ tar_entry }")
         FileUtils.rm_rf(tar_dest) unless File.file?(tar_dest)
         File.open(tar_dest, 'wb') do |f|
           f.write tar_entry.read
@@ -76,7 +76,7 @@ module ChefJava
       end
 
       def tar_symlink(tar_dest, tar_entry)
-        Chef::Log.debug("[Tar#write_file] symlink #{ dest } at #{ entry }")
+        Chef::Log.debug("[Tar#write_file] symlink #{ tar_dest } at #{ tar_entry }")
         File.symlink(tar_entry.header.linkname, tar_dest)
       end
 
@@ -93,7 +93,6 @@ module ChefJava
         Chef::Log.debug("[Tar#gzip_reader] Unknown Error: #{ error }")
       ensure
         zip.close
-        io.close
       end
 
       def tar_reader(archive)
