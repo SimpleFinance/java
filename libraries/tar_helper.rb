@@ -48,9 +48,9 @@ module ChefJava
       end
 
       def write_file(dest, entry)
-        Chef::debug.info('Writing files.')
+        Chef::Log.debug('Writing files.')
         if entry.directory?
-          Chef::debug.info("mkdir #{ dest } at #{ entry }")
+          Chef::Log.debug("mkdir #{ dest } at #{ entry }")
           tar_mkdir(dest, entry)
         elsif entry.file?
           Chef::Log.debug("file #{ dest } at #{ entry }")
