@@ -18,7 +18,7 @@ module ChefJava
         Chef::Log.debug("[Tar#extract_tar] Archive is #{ @archive }")
         Chef::Log.debug("[Tar#extract_tar] Destination is #{ @destination }")
         if valid_archive_and_destination?(@archive, @destination)
-          Chef::Log.info("[Tar#extract_tar] Archive and destination are valid.")
+          Chef::Log.info('[Tar#extract_tar] Archive and destination are valid.')
           tar = tar_reader(gzip_reader(@archive))
           tar.each do |entry|
             Chef::Log.debug("[Tar#extract_tar] Iteration: #{ entry }")
