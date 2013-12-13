@@ -7,6 +7,14 @@ cookbook_file 'java_tar_gz' do
   mode 00644
 end
 
+cookbook_file 'jce_zip' do
+  source 'jce.zip'
+  path '/tmp/jce.zip'
+  owner 'root'
+  group 'root'
+  mode 00644
+end
+
 Chef::Log.info('Testing management of "oracle_jdk"')
 java 'oracle_jdk' do
   install_type :tar
