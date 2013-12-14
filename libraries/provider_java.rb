@@ -33,7 +33,7 @@ class Chef
 
       def instance(type, action)
         instance_class = instance_sub_class(type)
-        i = instance_class.new(@install_options)
+        i = instance_class.new(@install_options, @run_context)
         i.send(action)
       end
 
