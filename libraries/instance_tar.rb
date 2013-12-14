@@ -9,8 +9,9 @@ module ChefJava
   module Instance
     # Drive tar extraction.
     class Tar
-      def initialize(options)
+      def initialize(options, run_context)
         @options = options
+        @run_context = run_context
       end
 
       def install
@@ -42,7 +43,7 @@ module ChefJava
       end
 
       def extract_jce
-        jce = ChefJava::Helpers::Zip.new(archive, destination)
+        jce = ChefJava::Helpers::Zip.new(archive, destination, @run_context)
         jce.extract_zip
       end
 

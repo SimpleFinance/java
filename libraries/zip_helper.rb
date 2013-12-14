@@ -1,34 +1,42 @@
+require 'chef/resource/chef_gem'
 
 module ChefJava
-  module Helper
+  module Helpers
     class Zip
-      def initialize(archive, destination)
+      def initialize(archive, destination, run_context)
         @archive = archive
         @destination = destination
+        @run_context = run_context
       end
 
       def extract_zip
         zip = zip_reader
         zip.extract(@archive, @destination)
       rescue => error
-        Chef::Log.debug("[Zip#extract_zip] Unknown Error: #{ error }")
-      ensure
-        zip.close
+        Chef::Log.info(error)
       end
 
       private
 
       def safe_require
-        require 'zip' if install_gem
+        require 'zip'
+      rescue => error
+        Chef::Log.info(error)
       end
 
       def install_gem
-        gem = Chef::Resource::ChefGem.new('rubyzip')
+        gem = Chef::Resource::ChefGem.new('rubyzip', @run_context)
         gem.run_action(:install)
+      rescue => error
+        Chef::Log.info(error)
       end
 
       def zip_reader
-        Zip::ZipFile.open(archive)
+        install_gem
+        safe_require
+        ::Zip::File.open(@archive)
+      rescue => error
+        Chef::Log.info(error)
       end
     end
   end
