@@ -12,6 +12,11 @@ describe 'java_test::oracle' do
            '/opt/java doesnt exist.')
   end
 
+  it 'should extract jce to /opt/jce' do
+    assert(File.directory?('/opt/jce'),
+          '/opt/jce doesnt exist.')
+  end
+
   it 'should create a java binary' do
     assert(File.exists?('/opt/java/bin/java'),
            '/opt/java/bin/java is missing.')
