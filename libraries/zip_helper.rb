@@ -10,13 +10,34 @@ module ChefJava
       end
 
       def extract_zip
-        zip = zip_reader
         zip.extract(@archive, @destination)
       rescue => error
         Chef::Log.info(error)
       end
 
+      def extract(entries)
+        entries.each do |entry|
+          zip.extract(entry, @destination)
+        end
+      end
+
+      def entries
+        zip.entries
+      end
+
+      def safe_handle
+        install_gem
+        safe_require
+        ::Zip::File.open(@archive)
+      rescue => error
+        Chef::Log.info(error)
+      end
+
       private
+
+      def zip
+        @zip ||= zip_handle
+      end
 
       def safe_require
         require 'zip'
@@ -27,14 +48,6 @@ module ChefJava
       def install_gem
         gem = Chef::Resource::ChefGem.new('rubyzip', @run_context)
         gem.run_action(:install)
-      rescue => error
-        Chef::Log.info(error)
-      end
-
-      def zip_reader
-        install_gem
-        safe_require
-        ::Zip::File.open(@archive)
       rescue => error
         Chef::Log.info(error)
       end
