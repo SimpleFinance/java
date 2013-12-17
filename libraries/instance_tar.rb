@@ -29,6 +29,10 @@ module ChefJava
         @options.fetch(:source) { :tar_source_unspecified }
       end
 
+      def jce_archive
+        @options.fetch(:jce_source) { :jce_source_unspecified }
+      end
+
       def destination
         @options.fetch(:destination) { :tar_destination_unspecified }
       end
@@ -43,8 +47,8 @@ module ChefJava
       end
 
       def extract_jce
-        jce = ChefJava::Helpers::Zip.new(archive, destination, @run_context)
-        jce.extract_zip
+        jce = ChefJava::Helpers::Jce.new(jce_archive, destination, @run_context)
+        jce.extract
       end
 
       def remove_extracted_tar
