@@ -2,6 +2,7 @@ require 'chef/resource/chef_gem'
 
 module ChefJava
   module Helpers
+    # Helps extract zip files.
     class Zip
       def initialize(archive, destination, run_context)
         @archive = archive
