@@ -19,8 +19,8 @@ require 'chef/mixin/shell_out'
 
 class Chef
   class Provider
+    # Talks to the Altneratives command and sets up symlinks.
     class JavaAlternatives < Chef::Provider
-
       def initialize(*args)
         super
       end
@@ -28,7 +28,7 @@ class Chef
       include Chef::Mixin::ShellOut
 
       def action_set
-        @new_resource.bin_cmds.each do |cmd|
+        bin_cmds.each do |cmd|
 
           unless ::File.exist?(alt_path)
             Chef::Log.info "Skipping setting alternative for #{cmd}. Command #{alt_path} does not exist."
@@ -44,10 +44,8 @@ class Chef
       end
 
       def action_unset
-        @new_resource.bin_cmds.each do |cmd|
-          alt_path = "#{@new_resource.java_location}/bin/#{cmd}"
-          cmd = shell_out("update-alternatives --remove #{cmd} #{alt_path}")
-          if cmd.exitstatus == 0
+        bin_cmds.each do |cmd|
+          if remove_cmd(cmd).exitstatus == 0
             @new_resource.updated_by_last_action(true)
           end
         end
@@ -55,8 +53,8 @@ class Chef
 
       private
 
-      # Fixme: This should be a boolean.
-      # Fixme: We can likely match off shell_out output instead of using grep.
+      # FIXME: This should be a boolean.
+      # FIXME: We can likely match off shell_out output instead of using grep.
       def alternative_is_set?(command)
         shell_out("update-alternatives --display #{ command }
                   | grep \"link currently points to #{alt_path}\"").exitstatus == 0
@@ -69,11 +67,9 @@ class Chef
       def set_alternative(command)
         if @new_resource.default
           unless alternative_is_set?(command)
-            description = "Set alternative for #{command}"
-            converge_by(description) do
-              Chef::Log.info "Setting alternative for #{command}"
-              set_cmd = shell_out("update-alternatives --set #{command} #{alt_path}")
-              unless set_cmd.exitstatus == 0
+            converge_by(set_description(command)) do
+              Chef::Log.info(set_description(command))
+              unless set_cmd(command).exitstatus == 0
                 Chef::Application.fatal!(%Q[ set alternative failed ])
               end
             end
@@ -84,11 +80,9 @@ class Chef
 
       def install_alternative(command)
         unless alternative_exists?(command)
-          description = "Add alternative for #{command}"
-          converge_by(description) do
-            Chef::Log.info "Adding alternative for #{command}"
-            install_cmd = shell_out("update-alternatives --install #{bin_path} #{command} #{alt_path} #{priority}")
-            unless install_cmd.exitstatus == 0
+          converge_by(add_description(command)) do
+            Chef::Log.info(add_description(command))
+            unless install_cmd(command).exitstatus == 0
               Chef::Application.fatal!(%Q[ set alternative failed ])
             end
           end
@@ -96,12 +90,33 @@ class Chef
         end
       end
 
+      def remove_cmd(command)
+        shell_out("update-alternatives --remove #{cmd} #{alt_path}")
+      end
+
+      def set_cmd(command)
+        shell_out("update-alternatives --set #{command} #{alt_path}")
+      end
+
+      def install_cmd(command)
+        shell_out("update-alternatives --install \
+                  #{bin_path} #{command} #{alt_path} #{priority}")
+      end
+
+      def set_description(command)
+        "Set alternative for #{ command }"
+      end
+
+      def add_description(command)
+        "Add alternative for #{ command }"
+      end
+
       def bin_path(command)
-        ::File.join('/usr/bin', command)
+        ::File.join('', 'usr', 'bin', command)
       end
 
       def alt_path(command)
-        "#{@new_resource.java_location}/bin/#{command}"
+        ::File.join(@new_resource.java_location, 'bin', command)
       end
 
       def bin_cmds
