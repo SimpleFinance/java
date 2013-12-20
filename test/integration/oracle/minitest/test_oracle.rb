@@ -14,7 +14,7 @@ describe 'java_test::oracle' do
 
   it 'should extract jce to /opt/jce' do
     assert(File.directory?('/opt/lib/security'),
-          '/opt/lib/security doesnt exist.')
+           '/opt/lib/security doesnt exist.')
   end
 
   it 'should create a jce_lib file' do
@@ -31,5 +31,4 @@ describe 'java_test::oracle' do
     assert(File.symlink?('/opt/java/sbin'),
            '/opt/java/sbin is not a symlink.')
   end
-
 end
