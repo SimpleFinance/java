@@ -47,7 +47,8 @@ module ChefJava
       end
 
       def extract_jce
-        jce = ChefJava::Helpers::Jce.new(jce_archive, destination, @run_context)
+        jce = ChefJava::Helpers::Jce.new(jce_archive,
+                                         destination, @run_context)
         jce.extract
       end
 

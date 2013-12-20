@@ -2,6 +2,7 @@ require_relative 'zip_helper'
 
 module ChefJava
   module Helpers
+    # Deal with the Jce policy zip.
     class Jce
       def initialize(archive, destination, run_context)
         @archive = archive
@@ -29,7 +30,7 @@ module ChefJava
 
       def jce_files
         open_zip = zip_handle
-        files = open_zip.collect { |entry| entry.ftype == :file ? entry : nil }
+        files = open_zip.map { |entry| entry.ftype == :file ? entry : nil }
         files.compact!
         files
       end

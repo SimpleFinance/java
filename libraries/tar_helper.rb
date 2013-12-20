@@ -12,17 +12,15 @@ module ChefJava
         @destination = destination
       end
 
-      TAR_LONGLINK = '././@LongLink'
-
       def extract_tar
         if valid_archive_and_destination?(@archive, @destination)
           tar = tar_reader(gzip_reader(@archive))
           tar.each do |entry|
-            Chef::Log.debug("[Tar#extract_tar] Iteration: #{ entry }")
+            Chef::Log.debug("Iteration: #{ entry }")
             write_file(get_destination(entry), entry)
           end
         else
-          Chef::Log.info("[Tar#extract_tar] Archive #{ @archive } is invalid.")
+          Chef::Log.info("Archive #{ @archive } is invalid.")
         end
       end
 
@@ -50,7 +48,7 @@ module ChefJava
           tar_symlink(dest, entry)
         else
           Chef::Log.debug(
-              "[Tar#write_file] Unsure how to handle #{ entry.header }")
+              "Unsure how to handle #{ entry.header }")
         end
       end
 
@@ -59,7 +57,7 @@ module ChefJava
       end
 
       def tar_mkdir(tar_dest, tar_entry)
-        Chef::Log.debug("[Tar#write_file] mkdir #{ tar_dest } at #{ tar_entry }")
+        Chef::Log.debug("mkdir #{ tar_dest } at #{ tar_entry }")
         FileUtils.rm_rf(tar_dest) unless File.directory?(tar_dest)
         FileUtils.mkdir_p(tar_dest,
                           mode: tar_entry.header.mode,
@@ -67,7 +65,7 @@ module ChefJava
       end
 
       def tar_file(tar_dest, tar_entry)
-        Chef::Log.debug("[Tar#write_file] file #{ tar_dest } at #{ tar_entry }")
+        Chef::Log.debug("file #{ tar_dest } at #{ tar_entry }")
         FileUtils.rm_rf(tar_dest) unless File.file?(tar_dest)
         File.open(tar_dest, 'wb') do |f|
           f.write tar_entry.read
@@ -76,12 +74,12 @@ module ChefJava
       end
 
       def tar_symlink(tar_dest, tar_entry)
-        Chef::Log.debug("[Tar#write_file] symlink #{ tar_dest } at #{ tar_entry }")
+        Chef::Log.debug("symlink #{ tar_dest } at #{ tar_entry }")
         File.symlink(tar_entry.header.linkname, tar_dest)
       end
 
       def longlink?(tar_entry)
-        tar_entry.full_name == TAR_LONGLINK
+        tar_entry.full_name == tar_longlink
       end
 
       def gzip_reader(archive)
@@ -93,6 +91,10 @@ module ChefJava
         Chef::Log.debug("[Tar#gzip_reader] Unknown Error: #{ error }")
       ensure
         zip.close
+      end
+
+      def tar_longlink
+        '././@LongLink'
       end
 
       def tar_reader(archive)

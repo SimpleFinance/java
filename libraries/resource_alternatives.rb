@@ -18,7 +18,7 @@ require 'chef/resource'
 
 class Chef
   class Resource
-
+    # Sets up symlinks Java
     class JavaAlternatives < Chef::Resource
       # we have to set default for the supports attribute
       # in initializer since it is a 'reserved' attribute name
@@ -27,7 +27,6 @@ class Chef
         @action = :set
         @allowed_actions = [:set, :unset]
       end
-
 
       def java_location(arg = nil)
         set_or_return(:java_location,
@@ -40,7 +39,7 @@ class Chef
         set_or_return(:bin_cmds,
                       arg,
                       kind_of: Array,
-                      default: nil)
+                      default: all_java_binaries)
       end
 
       def default(arg = nil)
@@ -57,7 +56,15 @@ class Chef
                       default: 1061)
       end
 
+      def all_java_binaries
+        %w(appletviewer apt ControlPanel extcheck
+           idlj jar jarsigner java javac javadoc javafxpackager javah
+           javap javaws jcmd jconsole jcontrol jdb jhat jinfo jmap jps
+           jrunscript jsadebugd jstack jstat jstatd jvisualvm keytool
+           native2ascii orbd pack200 policytool rmic rmid rmiregistry
+           schemagen serialver servertool tnameserv unpack200 wsgen
+           wsimport xjc)
+      end
     end
   end
 end
-
