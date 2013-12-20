@@ -36,7 +36,7 @@ class Chef
             priority = @new_resource.priority
 
             unless ::File.exist?(alt_path)
-              Chef::Log.debug "Skipping setting alternative for #{cmd}. Command #{alt_path} does not exist."
+              Chef::Log.info "Skipping setting alternative for #{cmd}. Command #{alt_path} does not exist."
               next
             end
 
@@ -45,7 +45,7 @@ class Chef
             unless alternative_exists
               description = "Add alternative for #{cmd}"
               converge_by(description) do
-                Chef::Log.debug "Adding alternative for #{cmd}"
+                Chef::Log.info "Adding alternative for #{cmd}"
                 install_cmd = shell_out("update-alternatives --install #{bin_path} #{cmd} #{alt_path} #{priority}")
                 unless install_cmd.exitstatus == 0
                   Chef::Application.fatal!(%Q[ set alternative failed ])
@@ -60,7 +60,7 @@ class Chef
               unless alternative_is_set
                 description = "Set alternative for #{cmd}"
                 converge_by(description) do
-                  Chef::Log.debug "Setting alternative for #{cmd}"
+                  Chef::Log.info "Setting alternative for #{cmd}"
                   set_cmd = shell_out("update-alternatives --set #{cmd} #{alt_path}")
                   unless set_cmd.exitstatus == 0
                     Chef::Application.fatal!(%Q[ set alternative failed ])
