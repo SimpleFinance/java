@@ -11,6 +11,8 @@ module ChefJava
       end
 
       def extract
+        create_destination
+        Chef::Log.debug("jce_path is #{ jce_path }")
         jce_files.each do |file|
           zip_handle.extract(file, jce_destination(file))
         end
@@ -41,6 +43,12 @@ module ChefJava
 
       def jce_file_name(entry)
         entry.name.split('/').last
+      end
+
+      def create_destination
+        unless File.directory?(jce_path)
+          FileUtils.mkdir_p(jce_path)
+        end
       end
 
       def jce_destination(file)
