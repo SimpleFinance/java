@@ -42,7 +42,7 @@ module ChefJava
       end
 
       def extract_tar
-        tar = ChefJava::Helpers::Tar.new(archive, destination)
+        tar = ChefJava::Helpers::Tar.new(archive, destination, @options)
         tar.extract_tar
       end
 
