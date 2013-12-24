@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 group :development do
   gem 'minitest'
   gem 'minitest-reporters'
+  gem 'rubocop'
   gem 'coveralls'
   gem 'kitchen-vagrant'
   gem 'berkshelf'
