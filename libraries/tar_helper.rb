@@ -7,9 +7,10 @@ module ChefJava
   module Helpers
     # Take gzipped tarball and extract it to a location.
     class Tar
-      def initialize(archive, destination)
+      def initialize(archive, destination, options)
         @archive = archive
         @destination = destination
+        @options = options
       end
 
       def extract_tar
@@ -19,11 +20,11 @@ module ChefJava
           tar.each do |entry|
             Chef::Log.debug("Iteration: #{ entry.full_name }")
             if longlink?(entry)
-              full_name = entry.read.strip
+              full_name = longlink(entry)
               next
             end
-            full_name ||= entry.full_name
-            dest = ::File.join(@destination, full_name)
+            full_name ||= link(entry)
+            dest = get_destination(@destination, full_name)
             Chef::Log.debug("Destination is #{ dest }")
             write_file(dest, entry)
             full_name = nil
@@ -115,19 +116,23 @@ module ChefJava
         tar.close
       end
 
-      def longlink(destination, tar_entry)
-        File.join(destination, tar_entry.read.strip)
+      def longlink(tar_entry)
+        tar_entry.read.strip
       end
 
-      def link(destination, tar_entry)
-        File.join(destination, tar_entry.full_name)
+      def link(tar_entry)
+        tar_entry.full_name
       end
 
-      def get_destination(tar_entry)
-        if longlink?(tar_entry)
-          longlink(@destination, tar_entry)
+      def strip_leading?
+        @options.fetch(:strip_leading) { false }
+      end
+
+      def get_destination(destination, tar_entry)
+        if strip_leading?
+          ::File.join(destination, tar_entry.split('/').drop(1))
         else
-          link(@destination, tar_entry)
+          ::File.join(destination, tar_entry)
         end
       end
     end
