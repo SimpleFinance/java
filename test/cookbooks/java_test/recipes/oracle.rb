@@ -15,13 +15,6 @@ cookbook_file 'jce_zip' do
   mode 00644
 end
 
-directory '/opt/lib/security' do
-  owner 'root'
-  group 'root'
-  mode 00755
-  recursive true
-end
-
 Chef::Log.info('Testing management of "oracle_jdk"')
 java 'oracle_jdk' do
   install_type :tar
@@ -29,6 +22,7 @@ java 'oracle_jdk' do
     source: '/tmp/java.tar.gz',
     jce_source: '/tmp/jce.zip',
     destination: '/opt',
+    strip_leading: true,
     provider: :oracle,
     version: 7,
     update: 45,
