@@ -1,10 +1,10 @@
 require 'minitest/autorun'
 
-describe do
+describe 'Chef::Provider::Alternatives' do
   describe '' do
 
-    it 'should ' do
-      true.should == false
+    it 'should' do
+      skip
     end
 
   end
