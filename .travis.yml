@@ -2,7 +2,7 @@ language: ruby
 rvm:
   - 2.0.0
   - 1.9.3
-  - rbx-19mode
+  - rbx-2.1.1
   - ruby-head
 env:
  - TEST_SUITE=minitest
@@ -18,4 +18,5 @@ matrix:
   allow_failures:
     - env: TEST_SUITE=rubocop
     - rvm: ruby-head
+    - rvm: rbx-2.1.1
     - gemfile: gemfiles/chef-master
