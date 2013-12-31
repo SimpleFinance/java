@@ -13,3 +13,9 @@ gemfile:
  - gemfiles/chef-master
 cache: bundler apt
 script: bundle exec rake test:$TEST_SUITE
+matrix:
+  fast_finish: true
+  allow_failures:
+    - env: TEST_SUITE=rubocop
+    - rvm: ruby-head
+    - gemfile: gemfiles/chef-master
