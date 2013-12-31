@@ -2,7 +2,14 @@ language: ruby
 rvm:
   - 2.0.0
   - 1.9.3
-  - rbx-2.1.1
+  - rbx-19mode
   - ruby-head
-gemfile: Gemfile.travis
-script: bundle exec rake test:all
+env:
+ - TEST_SUITE=minitest
+ - TEST_SUITE=rubocop
+gemfile:
+ - gemfiles/chef-11.8.2
+ - gemfiles/chef-10.30.2
+ - gemfiles/chef-master
+cache: bundler apt
+script: bundle exec rake test:$TEST_SUITE
