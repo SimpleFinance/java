@@ -15,6 +15,11 @@ cache: bundler apt
 script: bundle exec rake test:$TEST_SUITE
 matrix:
   fast_finish: true
+  allow_failures:
+    - env: TEST_SUITE=rubocop
+    - rvm: ruby-head
+    - rvm: rbx-2.2.3
+    - gemfile: gemfiles/chef-master
   exclude:
     - rvm: 1.9.3
       gemfile: gemfiles/chef-10.30.2
@@ -22,24 +27,33 @@ matrix:
     - rvm: 1.9.3
       gemfile: gemfiles/chef-11.8.2
       env: TEST_SUITE=rubocop
+    - rvm: 1.9.3
+      gemfile: gemfiles/chef-10.30.2
+      env: TEST_SUITE=minitest
+    - rvm: 1.9.3
+      gemfile: gemfiles/chef-11.8.2
+      env: TEST_SUITE=minitest
+    - rvm: rbx-2.2.3
+      gemfile: gemfiles/chef-11.8.2
+      env: TEST_SUITE=minitest
+    - rvm: rbx-2.2.3
+      gemfile: gemfiles/chef-10.30.2
+      env: TEST_SUITE=minitest
     - rvm: rbx-2.2.3
       gemfile: gemfiles/chef-11.8.2
       env: TEST_SUITE=rubocop
     - rvm: rbx-2.2.3
       gemfile: gemfiles/chef-10.30.2
-      env:
-        - TEST_SUITE=minitest
-        - TEST_SUITE=rubocop
+      env: TEST_SUITE=rubocop
     - rvm: ruby-head
       gemfile: gemfiles/chef-11.8.2
-      env:
-        - TEST_SUITE=minitest
-        - TEST_SUITE=rubocop
+      env: TEST_SUITE=minitest
+    - rvm: ruby-head
+      gemfile: gemfiles/chef-10.30.2
+      env: TEST_SUITE=minitest
+    - rvm: ruby-head
+      gemfile: gemfiles/chef-11.8.2
+      env: TEST_SUITE=rubocop
     - rvm: ruby-head
       gemfile: gemfiles/chef-10.30.2
       env: TEST_SUITE=rubocop
-  allow_failures:
-    - env: TEST_SUITE=rubocop
-    - rvm: ruby-head
-    - rvm: rbx-2.2.3
-    - gemfile: gemfiles/chef-master
