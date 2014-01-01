@@ -17,16 +17,22 @@ matrix:
   fast_finish: true
   exclude:
     - rvm: 1.9.3
-      gemfile:
-        - gemfiles/chef-10.30.2
-        - gemfiles/chef-11.8.2
+      gemfile: gemfiles/chef-10.30.2
+      env: TEST_SUITE=rubocop
+    - rvm: 1.9.3
+      gemfile: gemfiles/chef-11.8.2
       env: TEST_SUITE=rubocop
     - rvm: rbx-2.2.3
-      gemfile:
-        - gemfiles/chef-10.30.2
-        - gemfiles/chef-11.8.2
+      gemfile: gemfiles/chef-11.8.2
+      env: TEST_SUITE=rubocop
+    - rvm: rbx-2.2.3
+      gemfile: gemfiles/chef-10.30.2
       env: TEST_SUITE=rubocop
     - rvm: ruby-head
+      gemfile: gemfiles/chef-11.8.2
+      env: TEST_SUITE=rubocop
+    - rvm: ruby-head
+      gemfile: gemfiles/chef-10.30.2
       env: TEST_SUITE=rubocop
   allow_failures:
     - env: TEST_SUITE=rubocop
