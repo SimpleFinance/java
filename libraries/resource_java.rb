@@ -10,7 +10,8 @@ class Chef
         super
         @resource_name = :java
         @action = :create
-        @allowed_actions.push(:create, :destroy)
+        @allowed_actions = [:create, :destroy]
+        @provider = Chef::Provider::Java
       end
 
       def install_options(arg = nil)
