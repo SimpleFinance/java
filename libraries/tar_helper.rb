@@ -38,7 +38,9 @@ module ChefJava
 
       def valid_archive_and_destination?(archive, destination)
         valid_archive?(archive)
-        valid_destination?(destination)
+        unless valid_destination?(destination)
+          create_destination(destination)
+        end
       end
 
       def valid_archive?(archive)
@@ -126,6 +128,11 @@ module ChefJava
 
       def strip_leading?
         @options.fetch(:strip_leading) { false }
+      end
+
+      def create_destination(destination)
+        Chef::Log.debug("Creating #{ destination } directory.")
+        FileUtils.mkdir_p(destination)
       end
 
       def get_destination(destination, tar_entry)
