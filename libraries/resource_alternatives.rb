@@ -24,8 +24,10 @@ class Chef
       # in initializer since it is a 'reserved' attribute name
       def initialize(*args)
         super
+        @resource_name = :java_alternatives
         @action = :set
         @allowed_actions = [:set, :unset]
+        @provider = Chef::Provider::JavaAlternatives
       end
 
       def java_location(arg = nil)
