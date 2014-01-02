@@ -8,4 +8,5 @@ group :development do
   gem 'coveralls'
   gem 'berkshelf'
   gem 'rubyzip', '>= 1.0.0'
+  gem 'chef', :github => 'opscode/chef'
 end
