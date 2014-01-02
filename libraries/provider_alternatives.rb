@@ -38,7 +38,7 @@ class Chef
         bin_cmds.each do |cmd|
 
           unless ::File.exist?(alt_path(cmd))
-            Chef::Log.info("Command #{alt_path(cmd)} it does not exist. Skipping.")
+            Chef::Log.info("Command #{alt_path(cmd)} does not exist. Skipping.")
             next
           end
 
