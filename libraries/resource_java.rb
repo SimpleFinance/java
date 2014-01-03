@@ -1,4 +1,5 @@
 require 'chef/resource'
+require_relative 'provider_java'
 
 class Chef
   class Resource
