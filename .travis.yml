@@ -20,40 +20,25 @@ matrix:
     - rvm: ruby-head
     - rvm: rbx-2.2.3
     - gemfile: gemfiles/chef-master
-  exclude:
+  include:
+    - rvm: 2.9.3
+      gemfile: gemfiles/chef-master
+      env: TEST_SUITE=rubocop
+    - rvm: 2.9.3
+      gemfile: gemfiles/chef-master
+      env: TEST_SUITE=minitest
+    - rvm: 2.9.3
+      gemfile: gemfiles/chef-11.8.2
+      env: TEST_SUITE=minitest
     - rvm: 1.9.3
       gemfile: gemfiles/chef-10.30.2
-      env: TEST_SUITE=rubocop
-    - rvm: 1.9.3
-      gemfile: gemfiles/chef-11.8.2
-      env: TEST_SUITE=rubocop
-    - rvm: 1.9.3
-      gemfile: gemfiles/chef-10.30.2
       env: TEST_SUITE=minitest
-    - rvm: 1.9.3
-      gemfile: gemfiles/chef-11.8.2
+    - rvm: 2.1.0
+      gemfile: gemfiles/chef-master
       env: TEST_SUITE=minitest
     - rvm: rbx-2.2.3
-      gemfile: gemfiles/chef-11.8.2
-      env: TEST_SUITE=minitest
-    - rvm: rbx-2.2.3
-      gemfile: gemfiles/chef-10.30.2
-      env: TEST_SUITE=minitest
-    - rvm: rbx-2.2.3
-      gemfile: gemfiles/chef-11.8.2
-      env: TEST_SUITE=rubocop
-    - rvm: rbx-2.2.3
-      gemfile: gemfiles/chef-10.30.2
-      env: TEST_SUITE=rubocop
-    - rvm: ruby-head
-      gemfile: gemfiles/chef-11.8.2
+      gemfile: gemfiles/chef-master
       env: TEST_SUITE=minitest
     - rvm: ruby-head
-      gemfile: gemfiles/chef-10.30.2
+      gemfile: gemfiles/chef-master
       env: TEST_SUITE=minitest
-    - rvm: ruby-head
-      gemfile: gemfiles/chef-11.8.2
-      env: TEST_SUITE=rubocop
-    - rvm: ruby-head
-      gemfile: gemfiles/chef-10.30.2
-      env: TEST_SUITE=rubocop
