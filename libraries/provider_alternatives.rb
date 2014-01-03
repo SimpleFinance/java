@@ -21,17 +21,24 @@ class Chef
   class Provider
     # Talks to the Altneratives command and sets up symlinks.
     class JavaAlternatives < Chef::Provider
-      def initialize(*args)
+      def initialize(new_resource, run_context)
         super
+        @new_resource = new_resource
+        @run_context = run_context
       end
 
       include Chef::Mixin::ShellOut
 
+      def load_current_resource
+      end
+
       def action_set
+        Chef::Log.info("#{bin_cmds.class}")
+        Chef::Log.info("#{bin_cmds}")
         bin_cmds.each do |cmd|
 
-          unless ::File.exist?(alt_path)
-            Chef::Log.info "Skipping setting alternative for #{cmd}. Command #{alt_path} does not exist."
+          unless ::File.exist?(alt_path(cmd))
+            Chef::Log.info("Command #{alt_path(cmd)} does not exist. Skipping.")
             next
           end
 
@@ -57,11 +64,11 @@ class Chef
       # FIXME: We can likely match off shell_out output instead of using grep.
       def alternative_is_set?(command)
         shell_out("update-alternatives --display #{ command }
-                  | grep \"link currently points to #{alt_path}\"").exitstatus == 0
+                  | grep \"link currently points to #{alt_path(command)}\"").exitstatus == 0
       end
 
       def alternative_exists?(command)
-        shell_out("update-alternatives --display #{ command } | grep #{alt_path}").exitstatus == 0
+        shell_out("update-alternatives --display #{ command } | grep #{alt_path(command)}").exitstatus == 0
       end
 
       def set_alternative(command)
@@ -91,16 +98,17 @@ class Chef
       end
 
       def remove_cmd(command)
-        shell_out("update-alternatives --remove #{cmd} #{alt_path}")
+        shell_out("update-alternatives --remove #{command} #{alt_path(command)}")
       end
 
       def set_cmd(command)
-        shell_out("update-alternatives --set #{command} #{alt_path}")
+        shell_out("update-alternatives --set #{command} #{alt_path(command)}")
       end
 
       def install_cmd(command)
         shell_out("update-alternatives --install \
-                  #{bin_path} #{command} #{alt_path} #{priority}")
+                  #{bin_path(command)} #{command} \
+                  #{alt_path(command)} #{priority}")
       end
 
       def set_description(command)
