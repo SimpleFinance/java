@@ -19,7 +19,7 @@ require 'chef/mixin/shell_out'
 
 class Chef
   class Provider
-    # Talks to the Altneratives command and sets up symlinks.
+    # Talks to the Alternatives command and sets up symlinks.
     class JavaAlternatives < Chef::Provider
       def initialize(new_resource, run_context)
         super
