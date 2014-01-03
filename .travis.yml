@@ -21,13 +21,13 @@ matrix:
     - rvm: rbx-2.2.3
     - gemfile: gemfiles/chef-master
   include:
-    - rvm: 2.9.3
+    - rvm: 1.9.3
       gemfile: gemfiles/chef-master
       env: TEST_SUITE=rubocop
-    - rvm: 2.9.3
+    - rvm: 1.9.3
       gemfile: gemfiles/chef-master
       env: TEST_SUITE=minitest
-    - rvm: 2.9.3
+    - rvm: 1.9.3
       gemfile: gemfiles/chef-11.8.2
       env: TEST_SUITE=minitest
     - rvm: 1.9.3
