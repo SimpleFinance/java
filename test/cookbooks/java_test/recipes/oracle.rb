@@ -15,17 +15,22 @@ cookbook_file 'jce_zip' do
   mode 00644
 end
 
+jdk_install_flavor = 'oracle'
+jdk_version = 7
+java_home = "/usr/lib/jvm/java-#{ jdk_version }-#{ jdk_install_flavor }"
+
 Chef::Log.info('Testing management of "oracle_jdk"')
 java 'oracle_jdk' do
   install_type :tar
   install_options(
     source: '/tmp/java.tar.gz',
     jce_source: '/tmp/jce.zip',
-    destination: '/opt',
+    destination: java_home,
     strip_leading: true,
-    provider: :oracle,
-    version: 7,
-    update: 45,
     install_jce: true
   )
+end
+
+java_alternatives 'oracle_jdk' do
+    java_location java_home
 end
