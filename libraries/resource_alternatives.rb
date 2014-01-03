@@ -15,6 +15,7 @@
 # limitations under the License.
 
 require 'chef/resource'
+require_relative 'provider_alternatives'
 
 class Chef
   class Resource
@@ -22,7 +23,7 @@ class Chef
     class JavaAlternatives < Chef::Resource
       # we have to set default for the supports attribute
       # in initializer since it is a 'reserved' attribute name
-      def initialize(*args)
+      def initialize(name, run_context = nil)
         super
         @resource_name = :java_alternatives
         @action = :set
