@@ -32,5 +32,5 @@ java 'oracle_jdk' do
 end
 
 java_alternatives 'oracle_jdk' do
-    java_location java_home
+  java_location java_home
 end
