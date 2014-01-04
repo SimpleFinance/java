@@ -9,7 +9,7 @@ describe 'Chef::Resource::Java' do
     node
   end
   let(:events) { Chef::EventDispatch::Dispatcher.new }
-  let(:run_context) { Chef::RunContext.new(node, { }, events)}
+  let(:run_context) { Chef::RunContext.new(node, {}, events) }
   let(:resource) { 'alternatives_test' }
   let(:java) do
     Chef::Resource::Java.new(resource, run_context)
