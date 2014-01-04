@@ -9,7 +9,7 @@ describe 'Chef::Resource::Java' do
     node
   end
   let(:events) { Chef::EventDispatch::Dispatcher.new }
-  let(:run_context) { Chef::RunContext.new(node, { }, events)}
+  let(:run_context) { Chef::RunContext.new(node, {}, events) }
   let(:resource) { 'alternatives_test' }
   let(:java) do
     Chef::Resource::Java.new(resource, run_context)
@@ -32,7 +32,7 @@ describe 'Chef::Resource::Java' do
   describe 'Parameter tests for Chef::Resource::Java' do
     it "has a 'install_options' that can be set." do
       assert_respond_to(@java_res, :install_options)
-      assert(@java_res.install_options({ foo: 'bar' }))
+      assert(@java_res.install_options(foo: 'bar'))
       assert_raises(Chef::Exceptions::ValidationFailed) do
         @java_res.install_options(%w(fail))
       end

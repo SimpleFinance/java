@@ -23,8 +23,6 @@ class Chef
     class JavaAlternatives < Chef::Resource
       state_attrs :priority, :java_location, :bin_cmds
 
-      # we have to set default for the supports attribute
-      # in initializer since it is a 'reserved' attribute name
       def initialize(name, run_context = nil)
         super
         @resource_name = :java_alternatives

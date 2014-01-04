@@ -10,7 +10,7 @@ describe 'Chef::Resource::JavaAlternatives' do
     node
   end
   let(:events) { Chef::EventDispatch::Dispatcher.new }
-  let(:run_context) { Chef::RunContext.new(node, { }, events)}
+  let(:run_context) { Chef::RunContext.new(node, {}, events) }
   let(:resource) { 'alternatives_test' }
   let(:alternatives) do
     Chef::Resource::JavaAlternatives.new(resource, run_context)
