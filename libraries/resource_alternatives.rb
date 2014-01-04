@@ -21,6 +21,8 @@ class Chef
   class Resource
     # Sets up symlinks Java
     class JavaAlternatives < Chef::Resource
+      state_attrs :priority, :java_location, :bin_cmds
+
       def initialize(name, run_context = nil)
         super
         @resource_name = :java_alternatives
