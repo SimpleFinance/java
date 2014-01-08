@@ -29,6 +29,7 @@ module ChefJava
       def safe_handle
         install_gem
         safe_require
+        zip_setup
         ::Zip::File.open(@archive)
       rescue => error
         Chef::Log.info(error)
@@ -44,6 +45,10 @@ module ChefJava
         require 'zip'
       rescue => error
         Chef::Log.info(error)
+      end
+
+      def zip_setup
+        ::Zip.setup { |z| z.on_exists_proc = true }
       end
 
       def install_gem
