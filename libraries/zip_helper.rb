@@ -48,7 +48,7 @@ module ChefJava
       end
 
       def zip_setup
-        ::Zip.setup { |z| z.on_exists_proc = true }
+        ::Zip.on_exists_proc = true
       end
 
       def install_gem
