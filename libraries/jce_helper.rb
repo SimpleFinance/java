@@ -38,7 +38,7 @@ module ChefJava
       end
 
       def jce_path
-        File.join(@destination, 'lib', 'security')
+        File.join(@destination, 'jre', 'lib', 'security')
       end
 
       def jce_file_name(entry)
