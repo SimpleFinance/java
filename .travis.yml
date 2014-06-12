@@ -1,44 +1,22 @@
 language: ruby
 rvm:
-  - 2.1.0
-  - 1.9.3
-  - rbx-2.2.3
-  - ruby-head
+  - 2.1.2
 env:
  - TEST_SUITE=minitest
  - TEST_SUITE=rubocop
 gemfile:
- - gemfiles/chef-11.8.2
- - gemfiles/chef-10.30.2
- - gemfiles/chef-master
+ - gemfiles/chef-11
+ - gemfiles/chef-10
 cache: bundler apt
 script: bundle exec rake test:$TEST_SUITE
 matrix:
   fast_finish: true
   allow_failures:
     - env: TEST_SUITE=rubocop
-    - rvm: ruby-head
-    - rvm: rbx-2.2.3
-    - gemfile: gemfiles/chef-master
   include:
     - rvm: 1.9.3
-      gemfile: gemfiles/chef-master
-      env: TEST_SUITE=rubocop
-    - rvm: 1.9.3
-      gemfile: gemfiles/chef-master
+      gemfile: gemfiles/chef-11
       env: TEST_SUITE=minitest
     - rvm: 1.9.3
-      gemfile: gemfiles/chef-11.8.2
-      env: TEST_SUITE=minitest
-    - rvm: 1.9.3
-      gemfile: gemfiles/chef-10.30.2
-      env: TEST_SUITE=minitest
-    - rvm: 2.1.0
-      gemfile: gemfiles/chef-master
-      env: TEST_SUITE=minitest
-    - rvm: rbx-2.2.3
-      gemfile: gemfiles/chef-master
-      env: TEST_SUITE=minitest
-    - rvm: ruby-head
-      gemfile: gemfiles/chef-master
+      gemfile: gemfiles/chef-10
       env: TEST_SUITE=minitest
