@@ -8,5 +8,5 @@ group :development do
   gem 'coveralls'
   gem 'berkshelf'
   gem 'rubyzip', '>= 1.0.0'
-  gem 'chef', '< 11.0.0'
+  gem 'chef', '>= 10.32.2', '< 11.0.0'
 end
