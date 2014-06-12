@@ -4,14 +4,18 @@ module ChefJava
   module Instance
     # Take a Java package and install it.
     class Package
-      def initialize(options)
+      def initialize(options, run_context)
         @options = options
       end
 
       def install
+        set_package_resource
+        package_resource(@package, :install)
       end
 
       def remove
+        set_package_resource
+        package_resource(@package, :remove)
       end
 
       private
@@ -29,23 +33,23 @@ module ChefJava
       end
 
       def pkg_version
-        @options.fetch(:version)
+        @options.fetch(:version, nil)
       end
 
       def pkg_update
-        @options.fetch(:update)
+        @options.fetch(:update, nil)
       end
 
       def pkg_release
-        @options.fetch(:release)
+        @options.fetch(:release, nil)
       end
 
       def pkg_source
-        @options.fetch(:source)
+        @options.fetch(:source, nil)
       end
 
       def pkg_options
-        @options.fetch(:options)
+        @options.fetch(:options, nil)
       end
 
       def pkg_response_file
