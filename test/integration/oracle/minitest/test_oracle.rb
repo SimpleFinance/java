@@ -3,7 +3,7 @@ require 'minitest/autorun'
 describe 'java_test::oracle' do
 
   it 'should have /tmp/java.tar.gz' do
-    assert(File.exists?('/tmp/java.tar.gz'),
+    assert(File.exist?('/tmp/java.tar.gz'),
            'Java Tarball missing.')
   end
 
@@ -18,12 +18,12 @@ describe 'java_test::oracle' do
   end
 
   it 'should create a jce_lib file' do
-    assert(File.exists?('/opt/lib/security/jce_lib'),
+    assert(File.exist?('/opt/lib/security/jce_lib'),
            '/opt/lib/security/jce_lib is missing.')
   end
 
   it 'should create a java binary' do
-    assert(File.exists?('/opt/java/bin/java'),
+    assert(File.exist?('/opt/java/bin/java'),
            '/opt/java/bin/java is missing.')
   end
 
