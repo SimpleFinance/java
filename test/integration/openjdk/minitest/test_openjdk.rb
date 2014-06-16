@@ -7,7 +7,7 @@ describe 'java_test::openjdk' do
 
   it 'should have /usr/bin/java' do
     skip
-    assert(File.exists?('/usr/bin/java'),
+    assert(File.exist?('/usr/bin/java'),
            'Java missing.')
   end
 end
