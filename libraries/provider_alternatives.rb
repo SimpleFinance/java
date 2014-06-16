@@ -77,7 +77,7 @@ class Chef
             converge_by(set_description(command)) do
               Chef::Log.info(set_description(command))
               unless set_cmd(command).exitstatus == 0
-                Chef::Application.fatal!(%Q[ set alternative failed ])
+                Chef::Application.fatal!(%Q(set alternative failed))
               end
             end
             @new_resource.updated_by_last_action(true)
@@ -90,7 +90,7 @@ class Chef
           converge_by(add_description(command)) do
             Chef::Log.info(add_description(command))
             unless install_cmd(command).exitstatus == 0
-              Chef::Application.fatal!(%Q[ set alternative failed ])
+              Chef::Application.fatal!(%Q(set alternative failed))
             end
           end
           @new_resource.updated_by_last_action(true)
