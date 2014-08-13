@@ -4,7 +4,7 @@ java
 ```
 java 'oracle_jdk' do
   install_type :tar
-  install_options {
+  install_options: {
     provider: :oracle,
     version: 7,
     update: 45,
@@ -16,7 +16,7 @@ end
 ```
 java 'openjdk' do
   install_type :package
-  install_options {
+  install_options: {
     provider: :openjdk,
     version: 7,
     update: 25,
